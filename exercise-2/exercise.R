@@ -9,7 +9,7 @@ library(jsonlite)
 source("apikey.R")
 
 # Create a variable `movie.name` that is the name of a movie of your choice.
-
+movie_name <- "Your Name"
 
 # Construct an HTTP request to search for reviews for the given movie.
 # The base URI is `https://api.nytimes.com/svc/movies/v2/`
@@ -19,7 +19,13 @@ source("apikey.R")
 #
 # You should use YOUR api key (as the `api-key` parameter)
 # and your `movie.name` variable as the search query!
-
+base_uri <- "https://api.nytimes.com/svc/movies/v2/"
+resource <- "reviews/search.json"
+uri_full <- paste0(base_uri, resource)
+query_params <- list("api-key" = nyt_apikey, query = movie_name)
+response <- GET(uri_full, query = query_params)
+response_content <- content(response,"text")
+body_data <- fromJSON(response_content)
 
 # Send the HTTP Request to download the data
 # Extract the content and convert it from JSON
